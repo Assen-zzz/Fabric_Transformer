@@ -1,0 +1,244 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 1550" font-family="Arial,Helvetica,sans-serif">
+  <defs>
+    <linearGradient id="specGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E3F2FD"/><stop offset="1" stop-color="#BBDEFB"/>
+    </linearGradient>
+    <linearGradient id="visGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E8F5E9"/><stop offset="1" stop-color="#C8E6C9"/>
+    </linearGradient>
+    <linearGradient id="attnGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFF8E1"/><stop offset="1" stop-color="#FFECB3"/>
+    </linearGradient>
+    <linearGradient id="clsGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FCE4EC"/><stop offset="1" stop-color="#F8BBD0"/>
+    </linearGradient>
+    <filter id="sh">
+      <feDropShadow dx="1" dy="1" stdDeviation="1.5" flood-opacity="0.1"/>
+    </filter>
+    <marker id="ab" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0,8 3,0 6" fill="#1565C0"/>
+    </marker>
+    <marker id="ag" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0,8 3,0 6" fill="#2E7D32"/>
+    </marker>
+    <marker id="ao" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0,8 3,0 6" fill="#E65100"/>
+    </marker>
+  </defs>
+
+  <rect width="1050" height="1550" fill="#FAFAFA"/>
+  <rect x="0" y="0" width="1050" height="44" fill="#F5F5F5"/>
+  <text x="525" y="28" text-anchor="middle" font-size="17" font-weight="bold" fill="#333">SpectralVisionCrossAttention 模型架构图</text>
+  <line x1="0" y1="44" x2="1050" y2="44" stroke="#DDD" stroke-width="1"/>
+
+  <!-- LEFT PANEL -->
+  <rect x="15" y="60" width="200" height="115" rx="5" fill="#F8F9FA" stroke="#DDD" stroke-width="1"/>
+  <text x="115" y="82" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">Q / K / V 角色</text>
+  <rect x="28" y="95" width="14" height="14" rx="3" fill="#E3F2FD" stroke="#1565C0" stroke-width="1"/>
+  <text x="50" y="107" font-size="10" fill="#333">Q（查询）: 光谱25个token</text>
+  <rect x="28" y="118" width="14" height="14" rx="3" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1"/>
+  <text x="50" y="130" font-size="10" fill="#333">K（键）: 图像196个token</text>
+  <rect x="28" y="141" width="14" height="14" rx="3" fill="#FCE4EC" stroke="#C62828" stroke-width="1"/>
+  <text x="50" y="153" font-size="10" fill="#333">V（值）: 图像196个token</text>
+
+  <rect x="15" y="190" width="200" height="140" rx="5" fill="#F8F9FA" stroke="#DDD" stroke-width="1"/>
+  <text x="115" y="212" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">参数量汇总</text>
+  <text x="28" y="234" font-size="10" fill="#666">光谱EfficientNet: 398K</text>
+  <text x="28" y="253" font-size="10" fill="#666">光谱1x1映射: 20.7K</text>
+  <text x="28" y="272" font-size="10" fill="#666">视觉ResNet-18: 1,559K</text>
+  <text x="28" y="291" font-size="10" fill="#666">视觉SPP: 262K</text>
+  <text x="28" y="310" font-size="10" fill="#666">注意力+分类头: 364K</text>
+  <text x="28" y="333" font-size="11" font-weight="bold" fill="#333">总计: ≈12.2M</text>
+
+  <rect x="15" y="345" width="200" height="130" rx="5" fill="#F8F9FA" stroke="#DDD" stroke-width="1"/>
+  <text x="115" y="367" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">图例</text>
+  <rect x="28" y="380" width="14" height="14" rx="3" fill="url(#specGrad)" stroke="#1565C0" stroke-width="1"/>
+  <text x="50" y="392" font-size="10" fill="#333">光谱分支 (EfficientNet-Micro)</text>
+  <rect x="28" y="404" width="14" height="14" rx="3" fill="url(#visGrad)" stroke="#2E7D32" stroke-width="1"/>
+  <text x="50" y="416" font-size="10" fill="#333">视觉分支 (ResNet-18 + SPP)</text>
+  <rect x="28" y="428" width="14" height="14" rx="3" fill="url(#attnGrad)" stroke="#E65100" stroke-width="1"/>
+  <text x="50" y="440" font-size="10" fill="#333">交叉注意力模块</text>
+  <rect x="28" y="452" width="14" height="14" rx="3" fill="url(#clsGrad)" stroke="#D32F2F" stroke-width="1"/>
+  <text x="50" y="464" font-size="10" fill="#333">池化与分类头</text>
+
+  <!-- ===== SPECTRAL BRANCH ===== -->
+  <text x="420" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1565C0">光谱分支（EfficientNet-Micro）→ 生成 Q</text>
+  <rect x="260" y="76" width="320" height="34" rx="4" fill="#ECEFF1" stroke="#90A4AE" stroke-width="1.2"/>
+  <text x="420" y="91" text-anchor="middle" font-size="10" font-weight="bold" fill="#333">输入：近红外光谱 1600维 → 40x40</text>
+  <text x="420" y="105" text-anchor="middle" font-size="9" fill="#666">[B, 1, 40, 40]</text>
+  <line x1="420" y1="110" x2="420" y2="126" stroke="#1565C0" stroke-width="1.2" marker-end="url(#ab)"/>
+
+  <rect x="260" y="130" width="320" height="28" rx="4" fill="url(#specGrad)" stroke="#1565C0" stroke-width="1.2"/>
+  <text x="420" y="142" text-anchor="middle" font-size="10" font-weight="bold" fill="#0D47A1">Stem: Conv2d(1→32, 3x3) + BN + SiLU [B,32,40,40]</text>
+  <line x1="420" y1="158" x2="420" y2="174" stroke="#1565C0" stroke-width="1.2" marker-end="url(#ab)"/>
+
+  <rect x="260" y="178" width="320" height="26" rx="4" fill="url(#specGrad)" stroke="#1565C0" stroke-width="1.2"/>
+  <text x="420" y="190" text-anchor="middle" font-size="10" font-weight="bold" fill="#0D47A1">Stage1: MBConv1(3x3,s=1)x1 [B,16,40,40]</text>
+  <line x1="420" y1="204" x2="420" y2="220" stroke="#1565C0" stroke-width="1.2" marker-end="url(#ab)"/>
+
+  <rect x="260" y="224" width="320" height="26" rx="4" fill="url(#specGrad)" stroke="#1565C0" stroke-width="1.2"/>
+  <text x="420" y="236" text-anchor="middle" font-size="10" font-weight="bold" fill="#0D47A1">Stage2: MBConv6(3x3,s=2)x2 [B,24,20,20]</text>
+  <line x1="420" y1="250" x2="420" y2="266" stroke="#1565C0" stroke-width="1.2" marker-end="url(#ab)"/>
+
+  <rect x="260" y="270" width="320" height="26" rx="4" fill="url(#specGrad)" stroke="#1565C0" stroke-width="1.2"/>
+  <text x="420" y="282" text-anchor="middle" font-size="10" font-weight="bold" fill="#0D47A1">Stage3: MBConv6(5x5,s=2)x2 [B,40,10,10]</text>
+  <line x1="420" y1="296" x2="420" y2="312" stroke="#1565C0" stroke-width="1.2" marker-end="url(#ab)"/>
+
+  <rect x="260" y="316" width="320" height="26" rx="4" fill="url(#specGrad)" stroke="#1565C0" stroke-width="1.2"/>
+  <text x="420" y="328" text-anchor="middle" font-size="10" font-weight="bold" fill="#0D47A1">Stage4: MBConv6(3x3,s=2)x3 [B,80,5,5]</text>
+  <line x1="420" y1="342" x2="420" y2="358" stroke="#1565C0" stroke-width="1.2" marker-end="url(#ab)"/>
+
+  <rect x="260" y="362" width="320" height="26" rx="4" fill="url(#specGrad)" stroke="#1565C0" stroke-width="1.2"/>
+  <text x="420" y="374" text-anchor="middle" font-size="10" font-weight="bold" fill="#0D47A1">映射: Conv2d(80→256,1x1) [B,256,5,5]</text>
+  <line x1="420" y1="388" x2="420" y2="404" stroke="#1565C0" stroke-width="1.2" marker-end="url(#ab)"/>
+
+  <rect x="260" y="408" width="320" height="36" rx="4" fill="#1565C0" stroke="#0D47A1" stroke-width="1.5"/>
+  <text x="420" y="424" text-anchor="middle" font-size="10" font-weight="bold" fill="#FFF">Token化: 5x5→25个token [B,25,256]→Q</text>
+  <circle cx="595" cy="418" r="12" fill="#D32F2F"/>
+  <text x="595" y="423" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFF">Q</text>
+
+  <!-- ===== VISION BRANCH ===== -->
+  <text x="750" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#2E7D32">视觉分支（ResNet-18 + SPP）→ 生成 K,V</text>
+  <rect x="590" y="76" width="320" height="34" rx="4" fill="#ECEFF1" stroke="#90A4AE" stroke-width="1.2"/>
+  <text x="750" y="91" text-anchor="middle" font-size="10" font-weight="bold" fill="#333">输入：RGB图像 224x224x3</text>
+  <text x="750" y="105" text-anchor="middle" font-size="9" fill="#666">[B, 3, 224, 224]</text>
+  <line x1="750" y1="110" x2="750" y2="126" stroke="#2E7D32" stroke-width="1.2" marker-end="url(#ag)"/>
+
+  <rect x="590" y="130" width="320" height="28" rx="4" fill="url(#visGrad)" stroke="#2E7D32" stroke-width="1.2"/>
+  <text x="750" y="142" text-anchor="middle" font-size="10" font-weight="bold" fill="#1B5E20">Conv1: Conv2d(3→64,7x7)+BN+ReLU [B,64,112,112]</text>
+  <line x1="750" y1="158" x2="750" y2="174" stroke="#2E7D32" stroke-width="1.2" marker-end="url(#ag)"/>
+
+  <rect x="590" y="178" width="320" height="26" rx="4" fill="url(#visGrad)" stroke="#2E7D32" stroke-width="1.2"/>
+  <text x="750" y="190" text-anchor="middle" font-size="10" font-weight="bold" fill="#1B5E20">MaxPool2d(3x3,s=2) [B,64,56,56]</text>
+  <line x1="750" y1="204" x2="750" y2="220" stroke="#2E7D32" stroke-width="1.2" marker-end="url(#ag)"/>
+
+  <rect x="590" y="224" width="320" height="26" rx="4" fill="url(#visGrad)" stroke="#2E7D32" stroke-width="1.2"/>
+  <text x="750" y="236" text-anchor="middle" font-size="10" font-weight="bold" fill="#1B5E20">Layer1: ResBlockx2(64→64,s=1) [B,64,56,56]</text>
+  <line x1="750" y1="250" x2="750" y2="266" stroke="#2E7D32" stroke-width="1.2" marker-end="url(#ag)"/>
+
+  <rect x="590" y="270" width="320" height="26" rx="4" fill="url(#visGrad)" stroke="#2E7D32" stroke-width="1.2"/>
+  <text x="750" y="282" text-anchor="middle" font-size="10" font-weight="bold" fill="#1B5E20">Layer2: ResBlockx2(64→128,s=2) [B,128,28,28]</text>
+  <line x1="750" y1="296" x2="750" y2="312" stroke="#2E7D32" stroke-width="1.2" marker-end="url(#ag)"/>
+
+  <rect x="590" y="316" width="320" height="26" rx="4" fill="url(#visGrad)" stroke="#2E7D32" stroke-width="1.2"/>
+  <text x="750" y="328" text-anchor="middle" font-size="10" font-weight="bold" fill="#1B5E20">Layer3: ResBlockx2(128→256,s=2) [B,256,14,14]</text>
+  <line x1="750" y1="342" x2="750" y2="358" stroke="#2E7D32" stroke-width="1.2" marker-end="url(#ag)"/>
+
+  <rect x="590" y="362" width="320" height="48" rx="4" fill="url(#visGrad)" stroke="#2E7D32" stroke-width="1.2"/>
+  <text x="750" y="376" text-anchor="middle" font-size="10" font-weight="bold" fill="#1B5E20">SPP模块（空间金字塔池化）</text>
+  <rect x="598" y="384" width="68" height="15" rx="3" fill="#C8E6C9" stroke="#2E7D32" stroke-width="0.8"/>
+  <text x="632" y="395" text-anchor="middle" font-size="8" fill="#1B5E20">5x5</text>
+  <rect x="685" y="384" width="68" height="15" rx="3" fill="#C8E6C9" stroke="#2E7D32" stroke-width="0.8"/>
+  <text x="719" y="395" text-anchor="middle" font-size="8" fill="#1B5E20">9x9</text>
+  <rect x="772" y="384" width="68" height="15" rx="3" fill="#C8E6C9" stroke="#2E7D32" stroke-width="0.8"/>
+  <text x="806" y="395" text-anchor="middle" font-size="8" fill="#1B5E20">13x13</text>
+  <text x="750" y="407" text-anchor="middle" font-size="8" fill="#1B5E20">Concat [B,1024]→Conv1x1(1024→256)</text>
+  <line x1="750" y1="410" x2="750" y2="428" stroke="#2E7D32" stroke-width="1.2" marker-end="url(#ag)"/>
+
+  <rect x="590" y="432" width="320" height="36" rx="4" fill="#2E7D32" stroke="#1B5E20" stroke-width="1.5"/>
+  <text x="750" y="448" text-anchor="middle" font-size="10" font-weight="bold" fill="#FFF">Token化: 14x14→196个token [B,196,256]→K,V</text>
+  <circle cx="925" cy="442" r="12" fill="#D32F2F"/>
+  <text x="925" y="447" text-anchor="middle" font-size="10" font-weight="bold" fill="#FFF">K,V</text>
+
+  <!-- ARROWS -->
+  <path d="M 580 444 C 560 490, 540 520, 540 590" stroke="#D32F2F" stroke-width="1.5" fill="none" stroke-dasharray="6,3" marker-end="url(#ao)"/>
+  <text x="550" y="520" font-size="9" fill="#D32F2F">Q: 25 tokens→query</text>
+  <path d="M 915 458 C 880 490, 800 520, 770 590" stroke="#D32F2F" stroke-width="1.5" fill="none" stroke-dasharray="6,3" marker-end="url(#ao)"/>
+  <text x="850" y="520" font-size="9" fill="#D32F2F">K,V: 196 tokens→key/value</text>
+
+  <!-- ==================== CROSS-ATTENTION ==================== -->
+  <rect x="230" y="600" width="600" height="490" rx="8" fill="url(#attnGrad)" stroke="#E65100" stroke-width="2" filter="url(#sh)"/>
+  <text x="530" y="626" text-anchor="middle" font-size="14" font-weight="bold" fill="#E65100">交叉注意力（Cross-Attention）</text>
+  <line x1="260" y1="635" x2="800" y2="635" stroke="#E65100" stroke-width="0.5"/>
+
+  <!-- Step 1 -->
+  <rect x="250" y="648" width="560" height="62" rx="4" fill="#FFF" stroke="#FFB74D" stroke-width="1" filter="url(#sh)"/>
+  <text x="260" y="665" font-size="10" font-weight="bold" fill="#E65100">Step 1 · Q/K/V线性投影</text>
+  <rect x="260" y="676" width="100" height="22" rx="3" fill="#E3F2FD" stroke="#1565C0" stroke-width="1.2"/>
+  <text x="310" y="692" text-anchor="middle" font-size="10" font-weight="bold" fill="#0D47A1">Q [B,25,256]</text>
+  <rect x="380" y="676" width="100" height="22" rx="3" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.2"/>
+  <text x="430" y="692" text-anchor="middle" font-size="10" font-weight="bold" fill="#1B5E20">K [B,196,256]</text>
+  <rect x="500" y="676" width="100" height="22" rx="3" fill="#FCE4EC" stroke="#C62828" stroke-width="1.2"/>
+  <text x="550" y="692" text-anchor="middle" font-size="10" font-weight="bold" fill="#B71C1C">V [B,196,256]</text>
+  <text x="635" y="692" font-size="9" fill="#888">W_Q,W_K,W_V: Linear(256)</text>
+
+  <!-- Step 2 -->
+  <rect x="250" y="722" width="560" height="42" rx="4" fill="#FFF" stroke="#FFB74D" stroke-width="1" filter="url(#sh)"/>
+  <text x="260" y="739" font-size="10" font-weight="bold" fill="#E65100">Step 2 · 多头拆分</text>
+  <text x="380" y="739" font-size="9" fill="#888">n_heads=4, d_head=64</text>
+  <rect x="260" y="744" width="520" height="16" rx="3" fill="#FFF3E0" stroke="#F9A825" stroke-width="0.8"/>
+  <text x="290" y="756" text-anchor="middle" font-size="9" fill="#1565C0">头1 Q:[25,64]</text>
+  <text x="380" y="756" text-anchor="middle" font-size="9" fill="#1565C0">头2 Q:[25,64]</text>
+  <text x="470" y="756" text-anchor="middle" font-size="9" fill="#1565C0">头3 Q:[25,64]</text>
+  <text x="560" y="756" text-anchor="middle" font-size="9" fill="#1565C0">头4 Q:[25,64]</text>
+  <text x="660" y="756" font-size="9" fill="#E65100">K,V同理</text>
+
+  <!-- Step 3 -->
+  <rect x="250" y="776" width="560" height="58" rx="4" fill="#FFF" stroke="#FFB74D" stroke-width="1" filter="url(#sh)"/>
+  <text x="260" y="794" font-size="10" font-weight="bold" fill="#E65100">Step 3 · 缩放点积注意力分数（每头独立计算）</text>
+  <rect x="260" y="804" width="300" height="22" rx="3" fill="#FFF8E1" stroke="#FFB74D" stroke-width="1.2"/>
+  <text x="298" y="820" text-anchor="middle" font-size="10" font-weight="bold" fill="#1565C0">Q[25x64]</text>
+  <text x="333" y="820" text-anchor="middle" font-size="12" fill="#C0392B">x</text>
+  <text x="348" y="820" text-anchor="middle" font-size="10" font-weight="bold" fill="#2E7D32">K^T[64x196]</text>
+  <text x="382" y="820" text-anchor="middle" font-size="12" fill="#C0392B">=</text>
+  <text x="392" y="820" text-anchor="middle" font-size="10" font-weight="bold" fill="#E65100">Score[25x196]</text>
+  <text x="420" y="820" text-anchor="middle" font-size="12" fill="#C0392B">/</text>
+  <text x="450" y="820" text-anchor="middle" font-size="10" font-weight="bold" fill="#E65100">sqrt(64)</text>
+  <text x="585" y="820" font-size="9" fill="#E65100">每个光谱token与所有196个</text>
+  <text x="585" y="832" font-size="9" fill="#E65100">图像token的相似度分数</text>
+
+  <!-- Step 4 -->
+  <rect x="250" y="846" width="560" height="36" rx="4" fill="#FFF" stroke="#FFB74D" stroke-width="1" filter="url(#sh)"/>
+  <text x="260" y="863" font-size="10" font-weight="bold" fill="#E65100">Step 4 · Softmax归一化（对196个图像token做softmax）</text>
+  <text x="310" y="877" text-anchor="middle" font-size="10" font-weight="bold" fill="#E65100">attn_weights = Softmax(Score) [B,4,25,196]</text>
+  <text x="550" y="877" font-size="9" fill="#888">每行求和=1</text>
+
+  <!-- Step 5 -->
+  <rect x="250" y="894" width="560" height="40" rx="4" fill="#FFF" stroke="#FFB74D" stroke-width="1" filter="url(#sh)"/>
+  <text x="260" y="912" font-size="10" font-weight="bold" fill="#E65100">Step 5 · 加权聚合V</text>
+  <rect x="260" y="1000" width="280" height="24" rx="3" fill="#FFF8E1" stroke="#FFB74D" stroke-width="1.2"/>
+  <text x="278" y="919" text-anchor="middle" font-size="10" font-weight="bold" fill="#E65100">attn[25x196]</text>
+  <text x="335" y="919" text-anchor="middle" font-size="12" fill="#C0392B">x</text>
+  <text x="370" y="919" text-anchor="middle" font-size="10" font-weight="bold" fill="#C62828">V[196x64]</text>
+  <text x="420" y="919" text-anchor="middle" font-size="12" fill="#C0392B">=</text>
+  <text x="468" y="919" text-anchor="middle" font-size="10" font-weight="bold" fill="#1565C0">head_out[25x64]</text>
+  <text x="530" y="935" font-size="10" font-weight="bold" fill="#D32F2F">4头拼接 → [B,25,256]</text>
+
+  <!-- Step 6 -->
+  <rect x="250" y="946" width="560" height="55" rx="4" fill="#FFF" stroke="#FFB74D" stroke-width="1" filter="url(#sh)"/>
+  <text x="260" y="964" font-size="10" font-weight="bold" fill="#E65100">Step 6 · 输出投影 → 残差连接 → LayerNorm → Dropout</text>
+  <rect x="260" y="972" width="420" height="22" rx="3" fill="#FEF9E7" stroke="#FFB74D" stroke-width="1.2"/>
+  <text x="278" y="988" text-anchor="middle" font-size="9" font-weight="bold" fill="#E65100">Linear(256)</text>
+  <text x="305" y="988" text-anchor="middle" font-size="10" fill="#C0392B">+</text>
+  <text x="320" y="988" text-anchor="middle" font-size="9" font-weight="bold" fill="#1565C0">Q_proj</text>
+  <text x="348" y="988" text-anchor="middle" font-size="10" fill="#C0392B">→</text>
+  <text x="362" y="988" text-anchor="middle" font-size="9" fill="#5C6BC0">LayerNorm</text>
+  <text x="398" y="988" text-anchor="middle" font-size="10" fill="#C0392B">→</text>
+  <text x="412" y="988" text-anchor="middle" font-size="9" fill="#5C6BC0">Dropout</text>
+  <text x="448" y="988" text-anchor="middle" font-size="10" fill="#C0392B">→</text>
+  <text x="460" y="988" text-anchor="middle" font-size="9" font-weight="bold" fill="#D32F2F">输出 [B,25,256]</text>
+
+  <text x="530" y="1020" text-anchor="middle" font-size="9" fill="#E65100">输出保留了Q的序列长度25，每个光谱token融合了所有196个图像token的信息</text>
+
+  <!-- ===== POOLING & CLASSIFIER ===== -->
+  <line x1="530" y1="1090" x2="530" y2="1120" stroke="#E65100" stroke-width="2" marker-end="url(#ao)"/>
+
+  <rect x="305" y="1130" width="450" height="40" rx="6" fill="url(#clsGrad)" stroke="#D32F2F" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="530" y="1147" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFF">全局平均池化 (GAP)</text>
+  <text x="530" y="1163" text-anchor="middle" font-size="10" fill="#FFF">mean(dim=1) — 对25个token取均值 → [B, 256]</text>
+
+  <line x1="530" y1="1170" x2="530" y2="1198" stroke="#D32F2F" stroke-width="1.5" marker-end="url(#ao)"/>
+  <rect x="305" y="1208" width="450" height="38" rx="6" fill="url(#clsGrad)" stroke="#D32F2F" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="530" y="1225" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFF">FC1: Linear(256→128) + GELU + Dropout(0.1)</text>
+  <text x="530" y="1240" text-anchor="middle" font-size="10" fill="#FFF">→ [B, 128]</text>
+
+  <line x1="530" y1="1246" x2="530" y2="1275" stroke="#D32F2F" stroke-width="1.5" marker-end="url(#ao)"/>
+  <rect x="305" y="1285" width="450" height="38" rx="6" fill="#F48FB1" stroke="#C62828" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="530" y="1302" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFF">FC2: Linear(128→3)</text>
+  <text x="530" y="1317" text-anchor="middle" font-size="10" fill="#FFF">输出3类 → [B, 3]</text>
+
+  <line x1="530" y1="1323" x2="530" y2="1353" stroke="#C62828" stroke-width="2" marker-end="url(#ao)"/>
+  <rect x="380" y="1365" width="300" height="40" rx="8" fill="#F57C00" stroke="#E65100" stroke-width="2.5" filter="url(#sh)"/>
+  <text x="530" y="1383" text-anchor="middle" font-size="13" font-weight="bold" fill="#FFF">最终分类结果</text>
+  <text x="530" y="1400" text-anchor="middle" font-size="11" fill="#FFF3E0">棉 / 涤纶 / 混纺</text>
+</svg>
